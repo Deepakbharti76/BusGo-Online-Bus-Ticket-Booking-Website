@@ -1,0 +1,3146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo — India's Best Bus Booking</title>
+    <style>
+      /* ════════════════════════════════════════
+   ROOT & RESET
+════════════════════════════════════════ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --orange: #ff6b35;
+        --orange-dk: #e05a28;
+        --navy: #1e3a5f;
+        --navy-lt: #2d5a8e;
+        --green: #22c55e;
+        --red: #ef4444;
+        --yellow: #f59e0b;
+        --bg: #f1f5f9;
+        --white: #fff;
+        --text: #1e293b;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --sh: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.06);
+        --sh-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      input,
+      select,
+      button {
+        font-family: inherit;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* ════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════ */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 99px;
+      }
+
+      /* ════════════════════════════════════════
+   NAVBAR
+════════════════════════════════════════ */
+      .navbar {
+        background: var(--navy);
+        height: 62px;
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
+      }
+      .logo {
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo span {
+        color: var(--orange);
+      }
+      .logo small {
+        font-size: 0.6rem;
+        background: var(--orange);
+        color: #fff;
+        padding: 2px 7px;
+        border-radius: 4px;
+        margin-left: 4px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .nav-btn {
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.72);
+        padding: 7px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.83rem;
+        font-weight: 600;
+        transition: 0.2s;
+      }
+      .nav-btn:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .nav-btn.active {
+        background: var(--orange);
+        color: #fff;
+      }
+      .nav-pnr-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1.5px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 7px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.82rem;
+        font-weight: 600;
+        transition: 0.2s;
+      }
+      .nav-pnr-btn:hover {
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      /* ════════════════════════════════════════
+   PAGE SYSTEM
+════════════════════════════════════════ */
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+
+      /* ════════════════════════════════════════
+   HOME — HERO
+════════════════════════════════════════ */
+      #pg-home {
+        min-height: calc(100vh - 62px);
+        background: linear-gradient(
+          160deg,
+          #0c1f35 0%,
+          #1e3a5f 55%,
+          #1a5080 100%
+        );
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hero {
+        flex: 1;
+        padding: 55px 5% 0;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .hero-bg-circle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .hbc1 {
+        width: 480px;
+        height: 480px;
+        top: -140px;
+        right: -60px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 107, 53, 0.12),
+          transparent 70%
+        );
+      }
+      .hbc2 {
+        width: 320px;
+        height: 320px;
+        bottom: -100px;
+        left: 28%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 215, 0, 0.07),
+          transparent 70%
+        );
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+      }
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 107, 53, 0.18);
+        border: 1px solid rgba(255, 107, 53, 0.35);
+        color: #ffb49a;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        margin-bottom: 18px;
+      }
+      .hero h1 {
+        font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.18;
+        margin-bottom: 10px;
+      }
+      .hero h1 em {
+        color: var(--orange);
+        font-style: normal;
+      }
+      .hero p {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.72);
+        margin-bottom: 38px;
+        max-width: 520px;
+      }
+
+      /* ── SEARCH BOX ── */
+      .search-box {
+        background: #fff;
+        border-radius: 18px;
+        padding: 28px 30px 26px;
+        max-width: 880px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+      .search-box-title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 18px;
+      }
+      .search-row {
+        display: grid;
+        grid-template-columns: 1fr 60px 1fr 1.1fr auto;
+        align-items: end;
+        gap: 0;
+      }
+      .s-field {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        position: relative;
+      }
+      .s-field label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .s-field input,
+      .s-field select {
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 11px 14px;
+        font-size: 0.95rem;
+        color: var(--text);
+        background: #f8fafc;
+        transition: 0.2s;
+        outline: none;
+        width: 100%;
+      }
+      .s-field input:focus,
+      .s-field select:focus {
+        border-color: var(--orange);
+        background: #fff;
+      }
+      .swap-btn {
+        width: 44px;
+        height: 44px;
+        background: var(--orange);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #fff;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1px;
+        transition: 0.2s;
+        align-self: flex-end;
+        flex-shrink: 0;
+      }
+      .swap-btn:hover {
+        background: var(--orange-dk);
+        transform: rotate(180deg);
+      }
+      .search-dividers {
+        display: grid;
+        grid-template-columns: 1fr 60px 1fr 1.1fr auto;
+        gap: 0;
+        align-items: center;
+        padding: 0 2px;
+      }
+      .search-action {
+        padding-bottom: 0;
+      }
+      .s-search-btn {
+        background: var(--orange);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 13px 32px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        box-shadow: 0 4px 18px rgba(255, 107, 53, 0.4);
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 48px;
+      }
+      .s-search-btn:hover {
+        background: var(--orange-dk);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 22px rgba(255, 107, 53, 0.5);
+      }
+
+      /* ── POPULAR ROUTES ── */
+      .pop-routes {
+        padding: 20px 0 0;
+        position: relative;
+        z-index: 1;
+      }
+      .pop-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 10px;
+      }
+      .routes-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .route-chip {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.82);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 500;
+      }
+      .route-chip:hover {
+        background: rgba(255, 107, 53, 0.25);
+        border-color: var(--orange);
+        color: #fff;
+      }
+
+      /* ── TRUST STRIP ── */
+      .trust-strip {
+        background: rgba(0, 0, 0, 0.25);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 20px 5%;
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+        margin-top: auto;
+      }
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.75);
+      }
+      .trust-icon {
+        font-size: 1.3rem;
+      }
+      .trust-text {
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+
+      /* ════════════════════════════════════════
+   RESULTS SECTION
+════════════════════════════════════════ */
+      .results-page {
+        background: var(--bg);
+        padding: 30px 5% 60px;
+        min-height: calc(100vh - 62px);
+      }
+      .results-page.hidden {
+        display: none;
+      }
+      .results-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .results-back {
+        background: var(--white);
+        border: 1.5px solid var(--border);
+        color: var(--text);
+        padding: 8px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.83rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.2s;
+      }
+      .results-back:hover {
+        border-color: var(--orange);
+        color: var(--orange);
+      }
+      .results-info h2 {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .results-info p {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .sort-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .sort-row select {
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        outline: none;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      /* BUS CARD */
+      .bus-card {
+        background: #fff;
+        border-radius: 16px;
+        border: 2px solid transparent;
+        box-shadow: var(--sh);
+        margin-bottom: 14px;
+        overflow: hidden;
+        transition: 0.25s;
+        cursor: pointer;
+      }
+      .bus-card:hover {
+        border-color: var(--orange);
+        box-shadow: var(--sh-lg);
+        transform: translateY(-2px);
+      }
+      .bus-card-main {
+        display: grid;
+        grid-template-columns: 1.4fr 1.2fr 0.9fr auto;
+        align-items: center;
+        padding: 20px 22px;
+        gap: 16px;
+      }
+      .bc-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 3px;
+      }
+      .bc-type-badges {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .bc-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 9px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        color: var(--muted);
+      }
+      .bc-badge.ac {
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+      .bc-badge.sleeper {
+        background: #faf5ff;
+        color: #7c3aed;
+      }
+      .bc-badge.live {
+        background: #f0fdf4;
+        color: #16a34a;
+      }
+
+      .route-vis {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .rv-city {
+        text-align: center;
+      }
+      .rv-city .city {
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .rv-city .lbl {
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .rv-line {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+      }
+      .rv-dot-line {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--orange), #ffa500);
+        border-radius: 2px;
+        position: relative;
+      }
+      .rv-dot-line::before,
+      .rv-dot-line::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--orange);
+      }
+      .rv-dot-line::before {
+        left: -3px;
+      }
+      .rv-dot-line::after {
+        right: -3px;
+      }
+      .rv-dur {
+        font-size: 0.7rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .seats-col {
+        text-align: center;
+      }
+      .seats-num {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .seats-lbl {
+        font-size: 0.7rem;
+        color: var(--muted);
+      }
+      .seats-low {
+        color: var(--red);
+      }
+
+      .fare-col {
+        text-align: right;
+      }
+      .fare-from {
+        font-size: 0.68rem;
+        color: var(--muted);
+      }
+      .fare-price {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--orange);
+      }
+      .fare-sub {
+        font-size: 0.68rem;
+        color: var(--muted);
+      }
+      .book-btn {
+        background: var(--orange);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        margin-top: 8px;
+        box-shadow: 0 3px 12px rgba(255, 107, 53, 0.35);
+        transition: 0.2s;
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+      .book-btn:hover {
+        background: var(--orange-dk);
+      }
+
+      .bus-card-footer {
+        background: #fafafa;
+        border-top: 1px dashed var(--border);
+        padding: 10px 22px;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .bcf-item {
+        font-size: 0.74rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .bcf-item strong {
+        color: var(--text);
+      }
+
+      /* ════════════════════════════════════════
+   BOOKING MODAL
+════════════════════════════════════════ */
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+        align-items: flex-start;
+        justify-content: center;
+        overflow-y: auto;
+        padding: 24px 16px;
+      }
+      .overlay.open {
+        display: flex;
+      }
+      .modal {
+        background: #fff;
+        border-radius: 22px;
+        width: 100%;
+        max-width: 580px;
+        margin: auto;
+        animation: modalIn 0.3s ease;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      }
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: translateY(24px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .modal-head {
+        background: linear-gradient(135deg, var(--navy), var(--navy-lt));
+        color: #fff;
+        padding: 22px 26px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .modal-head h3 {
+        font-size: 1.1rem;
+        font-weight: 800;
+      }
+      .modal-head p {
+        font-size: 0.8rem;
+        opacity: 0.75;
+        margin-top: 2px;
+      }
+      .mclose {
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+        flex-shrink: 0;
+      }
+      .mclose:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .modal-body {
+        padding: 26px;
+      }
+
+      /* Journey summary inside modal */
+      .journey-strip {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .js-city {
+        text-align: center;
+      }
+      .js-city .jsc {
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .js-city .jsl {
+        font-size: 0.68rem;
+        color: var(--muted);
+      }
+      .js-arrow {
+        color: var(--orange);
+        font-size: 1.4rem;
+      }
+      .js-meta {
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-align: center;
+      }
+      .js-meta strong {
+        color: var(--text);
+        display: block;
+        font-size: 0.82rem;
+      }
+
+      /* Step indicators */
+      .steps-bar {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 24px;
+      }
+      .step-item {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        flex: 1;
+      }
+      .step-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--muted);
+        background: #fff;
+        flex-shrink: 0;
+        transition: 0.3s;
+      }
+      .step-circle.done {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+      .step-circle.active {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: #fff;
+      }
+      .step-label {
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 4px;
+        text-align: center;
+      }
+      .step-line {
+        flex: 1;
+        height: 2px;
+        background: var(--border);
+        transition: 0.3s;
+      }
+      .step-line.done {
+        background: var(--green);
+      }
+      .step-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* STEP 1 — Seat type */
+      .seat-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .seat-card {
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .seat-card:hover {
+        border-color: #fdba74;
+      }
+      .seat-card.sel {
+        border-color: var(--orange);
+        background: #fff7f3;
+      }
+      .seat-card.sel::after {
+        content: "✓";
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        background: var(--orange);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 800;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sc-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+      .sc-name {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: var(--navy);
+      }
+      .sc-fare {
+        font-size: 0.8rem;
+        color: var(--orange);
+        font-weight: 700;
+        margin-top: 2px;
+      }
+      .sc-avail {
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .sc-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 8px;
+      }
+      .sc-feat {
+        font-size: 0.65rem;
+        background: #f1f5f9;
+        color: var(--muted);
+        padding: 2px 7px;
+        border-radius: 5px;
+      }
+
+      /* STEP 2 — Passenger details */
+      .form-section-title {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .fgrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .fgrid.single {
+        grid-template-columns: 1fr;
+      }
+      .fg {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .fg label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .fg input,
+      .fg select {
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 13px;
+        font-size: 0.9rem;
+        color: var(--text);
+        background: #f8fafc;
+        outline: none;
+        transition: 0.2s;
+        width: 100%;
+      }
+      .fg input:focus,
+      .fg select:focus {
+        border-color: var(--orange);
+        background: #fff;
+      }
+      .fg input.err {
+        border-color: var(--red);
+      }
+      .err-msg {
+        font-size: 0.7rem;
+        color: var(--red);
+        margin-top: 3px;
+      }
+      .fg-full {
+        grid-column: 1/-1;
+      }
+
+      /* Passengers counter */
+      .pax-counter {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        max-width: 130px;
+      }
+      .pax-btn {
+        background: #f8fafc;
+        border: none;
+        padding: 10px 16px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-weight: 700;
+        color: var(--navy);
+        transition: 0.2s;
+      }
+      .pax-btn:hover {
+        background: var(--orange);
+        color: #fff;
+      }
+      .pax-num {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text);
+        background: #fff;
+        flex: 1;
+        text-align: center;
+        border-left: 2px solid var(--border);
+        border-right: 2px solid var(--border);
+      }
+
+      /* STEP 3 — Review */
+      .review-card {
+        background: var(--bg);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
+      .review-head {
+        background: var(--navy);
+        color: #fff;
+        padding: 14px 18px;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+      .review-grid {
+        padding: 16px 18px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .rg-item .rgl {
+        font-size: 0.68rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .rg-item .rgv {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-top: 2px;
+      }
+      .fare-breakdown {
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 18px;
+      }
+      .fb-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.85rem;
+      }
+      .fb-row:last-child {
+        border-bottom: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        background: #fff7f3;
+        color: var(--orange);
+      }
+
+      /* Modal footer */
+      .modal-foot {
+        padding: 18px 26px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        background: #fafafa;
+      }
+      .mf-back {
+        background: #fff;
+        border: 2px solid var(--border);
+        color: var(--text);
+        padding: 11px 22px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.88rem;
+        font-weight: 600;
+        transition: 0.2s;
+        flex: 0;
+      }
+      .mf-back:hover {
+        border-color: var(--muted);
+      }
+      .mf-next {
+        background: var(--orange);
+        color: #fff;
+        border: none;
+        padding: 11px 0;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.92rem;
+        font-weight: 700;
+        transition: 0.2s;
+        flex: 1;
+        box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .mf-next:hover {
+        background: var(--orange-dk);
+      }
+      .mf-next:disabled {
+        background: #cbd5e1;
+        box-shadow: none;
+        cursor: not-allowed;
+      }
+
+      /* ════════════════════════════════════════
+   TICKET MODAL
+════════════════════════════════════════ */
+      .ticket-modal-inner {
+        max-width: 600px;
+      }
+      .ticket-wrap {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--sh-lg);
+      }
+      .tk-head {
+        background: linear-gradient(135deg, #0f2035, var(--navy));
+        color: #fff;
+        padding: 28px;
+        text-align: center;
+      }
+      .tk-bus-icon {
+        font-size: 2.8rem;
+        margin-bottom: 8px;
+      }
+      .tk-busname {
+        font-size: 1rem;
+        opacity: 0.8;
+        margin-bottom: 6px;
+      }
+      .tk-pnr-box {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1.5px dashed rgba(255, 255, 255, 0.3);
+        padding: 10px 20px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 6px;
+      }
+      .tk-pnr-label {
+        font-size: 0.65rem;
+        opacity: 0.7;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .tk-pnr {
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        margin-top: 2px;
+      }
+      .tk-body {
+        padding: 24px;
+      }
+      .tk-route {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+      }
+      .tkc-city {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .tkc-lbl {
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+      .tk-arr {
+        font-size: 1.6rem;
+        color: var(--orange);
+      }
+      .tk-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .tkd-item .tkdl {
+        font-size: 0.65rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .tkd-item .tkdv {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-top: 2px;
+      }
+      .tk-fare-box {
+        background: linear-gradient(135deg, var(--orange), #ff9a5c);
+        border-radius: 12px;
+        padding: 18px;
+        text-align: center;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+      .tkf-label {
+        font-size: 0.78rem;
+        opacity: 0.9;
+      }
+      .tkf-amount {
+        font-size: 1.9rem;
+        font-weight: 800;
+      }
+      .tk-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+      }
+      .tk-status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--green);
+        flex-shrink: 0;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.3);
+        }
+      }
+      .tk-status-text {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #16a34a;
+      }
+      .tk-note {
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-align: center;
+        padding: 10px 0 0;
+        border-top: 1px dashed var(--border);
+      }
+
+      /* ════════════════════════════════════════
+   MY BOOKINGS PAGE
+════════════════════════════════════════ */
+      #pg-bookings,
+      #pg-admin {
+        min-height: calc(100vh - 62px);
+        background: var(--bg);
+        padding: 36px 5% 60px;
+      }
+      .page-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--navy);
+        margin-bottom: 4px;
+      }
+      .page-sub {
+        font-size: 0.88rem;
+        color: var(--muted);
+        margin-bottom: 28px;
+      }
+
+      .search-pnr-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 26px;
+        box-shadow: var(--sh);
+        margin-bottom: 28px;
+      }
+      .search-pnr-card .sprow {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+        max-width: 520px;
+      }
+      .tab-switch {
+        display: flex;
+        gap: 0;
+        background: #f1f5f9;
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 20px;
+        max-width: 320px;
+      }
+      .tab-switch button {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 8px 0;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .tab-switch button.active {
+        background: #fff;
+        color: var(--navy);
+        box-shadow: var(--sh);
+      }
+
+      /* Booking cards */
+      .bk-card {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        margin-bottom: 14px;
+        overflow: hidden;
+        border-left: 4px solid var(--orange);
+      }
+      .bk-card-top {
+        padding: 16px 20px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 16px;
+        align-items: center;
+      }
+      .bk-pnr {
+        font-size: 0.72rem;
+        color: var(--muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .bk-pnr strong {
+        font-size: 0.95rem;
+        color: var(--navy);
+        font-weight: 800;
+        letter-spacing: 1px;
+        display: block;
+        margin-top: 1px;
+      }
+      .bk-route {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--navy);
+      }
+      .bk-arrow {
+        color: var(--orange);
+      }
+      .bk-meta {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .bk-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-end;
+      }
+      .bk-fare {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--orange);
+        margin-bottom: 4px;
+      }
+      .bk-card-footer {
+        background: #fafafa;
+        border-top: 1px solid var(--border);
+        padding: 10px 20px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* ════════════════════════════════════════
+   ADMIN PAGE
+════════════════════════════════════════ */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .stat-box {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: var(--sh);
+        border-top: 4px solid var(--orange);
+      }
+      .stat-box:nth-child(2) {
+        border-top-color: var(--green);
+      }
+      .stat-box:nth-child(3) {
+        border-top-color: #8b5cf6;
+      }
+      .stat-box:nth-child(4) {
+        border-top-color: var(--yellow);
+      }
+      .stat-val {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .stat-lbl {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+
+      /* Admin table */
+      .admin-table-wrap {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        overflow: hidden;
+      }
+      .admin-table-head {
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+      }
+      .admin-table-head h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--navy);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      thead {
+        background: var(--navy);
+      }
+      th {
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      tbody tr {
+        border-bottom: 1px solid var(--border);
+        transition: 0.15s;
+      }
+      tbody tr:hover {
+        background: #fafafa;
+      }
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+      td {
+        padding: 12px 14px;
+        font-size: 0.82rem;
+        color: var(--text);
+      }
+      .badge {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 0.68rem;
+        font-weight: 700;
+      }
+      .badge-ac {
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+      .badge-sl {
+        background: #faf5ff;
+        color: #7c3aed;
+      }
+
+      /* ════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════ */
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        transition: 0.2s;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .btn-orange {
+        background: var(--orange);
+        color: #fff;
+        box-shadow: 0 3px 12px rgba(255, 107, 53, 0.3);
+      }
+      .btn-orange:hover {
+        background: var(--orange-dk);
+      }
+      .btn-outline {
+        background: #fff;
+        border: 2px solid var(--border);
+        color: var(--text);
+      }
+      .btn-outline:hover {
+        border-color: var(--orange);
+        color: var(--orange);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--muted);
+        border: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+      }
+      .btn-ghost:hover {
+        background: var(--bg);
+        color: var(--text);
+      }
+      .btn-red {
+        background: var(--red);
+        color: #fff;
+      }
+      .btn-red:hover {
+        background: #dc2626;
+      }
+      .btn-navy {
+        background: var(--navy);
+        color: #fff;
+      }
+      .btn-sm {
+        padding: 7px 14px;
+        font-size: 0.78rem;
+        border-radius: 8px;
+      }
+
+      /* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+      #toast-area {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+      }
+      .toast {
+        padding: 13px 18px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #fff;
+        box-shadow: var(--sh-lg);
+        animation: tIn 0.3s ease;
+        max-width: 320px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .toast.ok {
+        background: #16a34a;
+      }
+      .toast.er {
+        background: var(--red);
+      }
+      .toast.in {
+        background: var(--navy);
+      }
+      @keyframes tIn {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ════════════════════════════════════════
+   LOADER
+════════════════════════════════════════ */
+      .spin {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2.5px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: rot 0.7s linear infinite;
+      }
+      .spin.dark {
+        border-color: rgba(0, 0, 0, 0.1);
+        border-top-color: var(--orange);
+      }
+      @keyframes rot {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ════════════════════════════════════════
+   EMPTY / ERROR STATES
+════════════════════════════════════════ */
+      .empty {
+        text-align: center;
+        padding: 55px 20px;
+        color: var(--muted);
+      }
+      .empty-icon {
+        font-size: 3.5rem;
+        margin-bottom: 14px;
+      }
+      .empty h3 {
+        font-size: 1.05rem;
+        color: var(--text);
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+      .empty p {
+        font-size: 0.85rem;
+      }
+
+      /* ════════════════════════════════════════
+   PNR LOOKUP MODAL
+════════════════════════════════════════ */
+      .pnr-result {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 16px;
+        display: none;
+      }
+      .pnr-result.show {
+        display: block;
+      }
+
+      /* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+      @media (max-width: 900px) {
+        .search-row {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .swap-btn {
+          display: none;
+        }
+        .s-search-btn {
+          width: 100%;
+        }
+        .bus-card-main {
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .tk-details {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .navbar {
+          padding: 0 4%;
+        }
+        .logo small {
+          display: none;
+        }
+        .nav-btn {
+          padding: 6px 10px;
+          font-size: 0.76rem;
+        }
+        .search-box {
+          padding: 18px;
+        }
+        .search-row {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 1.75rem;
+        }
+        .bus-card-main {
+          grid-template-columns: 1fr;
+        }
+        .seat-cards {
+          grid-template-columns: 1fr;
+        }
+        .fgrid {
+          grid-template-columns: 1fr;
+        }
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .tk-details {
+          grid-template-columns: 1fr 1fr;
+        }
+        .review-grid {
+          grid-template-columns: 1fr;
+        }
+        table {
+          font-size: 0.75rem;
+        }
+        th,
+        td {
+          padding: 9px 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ TOAST AREA ══ -->
+    <div id="toast-area"></div>
+
+    <!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+    <nav class="navbar">
+      <div class="logo">🚌 Bus<span>Go</span> <small>BETA</small></div>
+      <div class="nav-links">
+        <button class="nav-btn active" onclick="goPage('home', this)">
+          🏠 Home
+        </button>
+        <button class="nav-btn" onclick="goPage('bookings', this)">
+          📋 My Bookings
+        </button>
+        <button class="nav-btn" onclick="goPage('admin', this)">
+          ⚙️ Admin
+        </button>
+        <button class="nav-pnr-btn" onclick="openPNRCheck()">
+          🔍 PNR Check
+        </button>
+      </div>
+    </nav>
+
+    <!-- ════════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════════ -->
+    <div id="pg-home" class="page active">
+      <div class="hero">
+        <div class="hero-bg-circle hbc1"></div>
+        <div class="hero-bg-circle hbc2"></div>
+        <div class="hero-inner">
+          <div class="hero-tag">⚡ India's Fastest Bus Booking</div>
+          <h1>Travel Smart,<br />Travel with <em>BusGo</em></h1>
+          <p>
+            From Punjab to Bihar — instant booking, real seats, instant
+            confirmation
+          </p>
+
+          <div class="search-box">
+            <div class="search-box-title">🔍 Search your bus</div>
+            <div class="search-row" id="searchRow">
+              <div class="s-field">
+                <label>From City</label>
+                <input
+                  type="text"
+                  id="fromCity"
+                  placeholder="Delhi"
+                  list="city-list"
+                  autocomplete="off"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-end;
+                  justify-content: center;
+                  padding-bottom: 1px;
+                "
+              >
+                <button
+                  class="swap-btn"
+                  onclick="swapCities()"
+                  title="Swap cities"
+                >
+                  ⇄
+                </button>
+              </div>
+              <div class="s-field">
+                <label>To City</label>
+                <input
+                  type="text"
+                  id="toCity"
+                  placeholder="Patna"
+                  list="city-list"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="s-field">
+                <label>Travel Date</label>
+                <input type="date" id="travelDate" />
+              </div>
+              <div
+                class="search-action"
+                style="display: flex; align-items: flex-end"
+              >
+                <button
+                  class="s-search-btn"
+                  id="searchBtn"
+                  onclick="doSearch()"
+                >
+                  <span id="searchBtnTxt">🔍 Search Buses</span>
+                </button>
+              </div>
+            </div>
+
+            <datalist id="city-list">
+              <option value="Delhi"></option>
+              <option value="Patna"></option>
+              <option value="Darbhanga"></option>
+              <option value="Lucknow"></option>
+              <option value="Muzaffarpur"></option>
+              <option value="Ludhiana"></option>
+              <option value="Sonipat"></option>
+              <option value="Jhanjharpur"></option>
+            </datalist>
+          </div>
+
+          <div class="pop-routes">
+            <div class="pop-label">Popular Routes</div>
+            <div class="routes-chips">
+              <div class="route-chip" onclick="fillRoute('Delhi', 'Patna')">
+                Delhi → Patna
+              </div>
+              <div class="route-chip" onclick="fillRoute('Delhi', 'Darbhanga')">
+                Delhi → Darbhanga
+              </div>
+              <div
+                class="route-chip"
+                onclick="fillRoute('Ludhiana', 'Darbhanga')"
+              >
+                Ludhiana → Darbhanga
+              </div>
+              <div
+                class="route-chip"
+                onclick="fillRoute('Lucknow', 'Darbhanga')"
+              >
+                Lucknow → Darbhanga
+              </div>
+              <div
+                class="route-chip"
+                onclick="fillRoute('Delhi', 'Muzaffarpur')"
+              >
+                Delhi → Muzaffarpur
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-strip">
+        <div class="trust-item">
+          <span class="trust-icon">⚡</span>
+          <div class="trust-text">Instant Confirmation</div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">🔒</span>
+          <div class="trust-text">100% Secure Booking</div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">📄</span>
+          <div class="trust-text">PDF Ticket Download</div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">↩️</span>
+          <div class="trust-text">Easy Cancellation</div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">💬</span>
+          <div class="trust-text">24/7 Support</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     RESULTS (appears below home, same page)
+════════════════════════════════════════ -->
+    <div class="results-page hidden" id="resultsSection">
+      <div class="results-topbar">
+        <button class="results-back" onclick="backToHome()">
+          ← Back to Search
+        </button>
+        <div class="results-info">
+          <h2 id="resultsTitle">Buses Found</h2>
+          <p id="resultsSubtitle"></p>
+        </div>
+        <div class="sort-row">
+          Sort by:
+          <select onchange="sortBuses(this.value)">
+            <option value="seats">Available Seats</option>
+            <option value="fare_asc">Fare: Low to High</option>
+            <option value="fare_desc">Fare: High to Low</option>
+          </select>
+        </div>
+      </div>
+      <div id="busList"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     MY BOOKINGS PAGE
+════════════════════════════════════════ -->
+    <div id="pg-bookings" class="page">
+      <div class="page-title">📋 My Bookings</div>
+      <div class="page-sub">
+        Enter your mobile number or PNR to view and manage your bookings
+      </div>
+
+      <div class="search-pnr-card">
+        <div class="tab-switch" id="bkTabSwitch">
+          <button class="active" onclick="switchBkTab('mobile', this)">
+            📱 Mobile Number
+          </button>
+          <button onclick="switchBkTab('pnr', this)">🔖 PNR Number</button>
+        </div>
+        <div id="bk-mobile-form">
+          <div class="sprow">
+            <div class="fg" style="flex: 1">
+              <label>Mobile Number</label>
+              <input
+                type="tel"
+                id="histMobile"
+                placeholder="Enter 10-digit mobile number"
+                maxlength="10"
+              />
+            </div>
+            <button class="btn btn-orange" onclick="loadMyBookings()">
+              Search
+            </button>
+          </div>
+        </div>
+        <div id="bk-pnr-form" style="display: none">
+          <div class="sprow">
+            <div class="fg" style="flex: 1">
+              <label>PNR Number</label>
+              <input
+                type="text"
+                id="histPNR"
+                placeholder="e.g. PNR1708444123456"
+                style="text-transform: uppercase"
+              />
+            </div>
+            <button class="btn btn-orange" onclick="loadByPNR()">Search</button>
+          </div>
+        </div>
+      </div>
+      <div id="bookingsResult"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     ADMIN PAGE
+════════════════════════════════════════ -->
+    <div id="pg-admin" class="page">
+      <div class="page-title">⚙️ Admin Dashboard</div>
+      <div class="page-sub">
+        Saari bookings, revenue aur passenger data ek jagah
+      </div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val" id="adm-total">—</div>
+          <div class="stat-lbl">Total Bookings</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="adm-rev">—</div>
+          <div class="stat-lbl">Total Revenue</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="adm-pax">—</div>
+          <div class="stat-lbl">Passengers</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="adm-today">—</div>
+          <div class="stat-lbl">Today's Bookings</div>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>All Bookings</h3>
+          <button class="btn btn-outline btn-sm" onclick="loadAdmin()">
+            🔄 Refresh
+          </button>
+        </div>
+        <div id="adminTableContent">
+          <div class="empty">
+            <div class="spin dark" style="width: 28px; height: 28px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     BOOKING MODAL (3 steps)
+════════════════════════════════════════ -->
+    <div class="overlay" id="bookingOverlay">
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <h3 id="mHeadTitle">Book Your Ticket</h3>
+            <p id="mHeadSub">Step 1 of 3</p>
+          </div>
+          <button class="mclose" onclick="closeBookingModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <!-- Journey summary -->
+          <div class="journey-strip" id="journeyStrip"></div>
+
+          <!-- Steps bar -->
+          <div class="steps-bar">
+            <div class="step-col">
+              <div class="step-circle active" id="sc1">1</div>
+              <div class="step-label">Seat Type</div>
+            </div>
+            <div class="step-line" id="sl1"></div>
+            <div class="step-col">
+              <div class="step-circle" id="sc2">2</div>
+              <div class="step-label">Passengers</div>
+            </div>
+            <div class="step-line" id="sl2"></div>
+            <div class="step-col">
+              <div class="step-circle" id="sc3">3</div>
+              <div class="step-label">Review</div>
+            </div>
+          </div>
+
+          <!-- Step 1: Seat type -->
+          <div id="step1">
+            <div class="form-section-title">🪑 Choose your seat type</div>
+            <div class="seat-cards" id="seatCards"></div>
+          </div>
+
+          <!-- Step 2: Passenger details -->
+          <div id="step2" style="display: none">
+            <div class="form-section-title">👤 Passenger details</div>
+            <div class="fgrid">
+              <div class="fg fg-full">
+                <label>Full Name *</label>
+                <input type="text" id="pName" placeholder="As per ID proof" />
+                <div class="err-msg" id="pNameErr"></div>
+              </div>
+              <div class="fg">
+                <label>Mobile Number *</label>
+                <input
+                  type="tel"
+                  id="pMobile"
+                  placeholder="10-digit number"
+                  maxlength="10"
+                />
+                <div class="err-msg" id="pMobileErr"></div>
+              </div>
+              <div class="fg">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  id="pEmail"
+                  placeholder="For ticket confirmation"
+                />
+              </div>
+              <div class="fg">
+                <label>Gender</label>
+                <select id="pGender">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label>Number of Passengers *</label>
+                <div class="pax-counter">
+                  <button class="pax-btn" onclick="changePax(-1)">−</button>
+                  <div class="pax-num" id="paxNum">1</div>
+                  <button class="pax-btn" onclick="changePax(1)">+</button>
+                </div>
+                <div class="err-msg" id="paxErr"></div>
+              </div>
+            </div>
+            <div
+              style="
+                background: #fffbeb;
+                border: 1px solid #fcd34d;
+                border-radius: 10px;
+                padding: 11px 14px;
+                font-size: 0.78rem;
+                color: #92400e;
+                margin-top: 4px;
+              "
+            >
+              ⚠️ Please double-check your details before proceeding. Name should
+              match your ID proof.
+            </div>
+          </div>
+
+          <!-- Step 3: Review & Confirm -->
+          <div id="step3" style="display: none">
+            <div class="form-section-title">✅ Review your booking</div>
+            <div class="review-card">
+              <div class="review-head">🚌 Journey Details</div>
+              <div class="review-grid" id="reviewGrid"></div>
+            </div>
+            <div class="form-section-title" style="margin-top: 14px">
+              💰 Fare Breakdown
+            </div>
+            <div class="fare-breakdown" id="fareBreakdown"></div>
+            <div
+              style="
+                background: #f0fdf4;
+                border: 1px solid #bbf7d0;
+                border-radius: 10px;
+                padding: 11px 14px;
+                font-size: 0.78rem;
+                color: #166534;
+              "
+            >
+              ✅ Your booking will be confirmed instantly. A confirmation will
+              be shown on screen.
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <button
+            class="mf-back"
+            id="mBackBtn"
+            onclick="stepBack()"
+            style="display: none"
+          >
+            ← Back
+          </button>
+          <button class="mf-next" id="mNextBtn" onclick="stepNext()">
+            Next: Passenger Details →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     TICKET MODAL
+════════════════════════════════════════ -->
+    <div class="overlay" id="ticketOverlay">
+      <div class="modal ticket-modal-inner">
+        <div
+          class="modal-head"
+          style="background: linear-gradient(135deg, #166534, #16a34a)"
+        >
+          <div>
+            <h3>🎉 Booking Confirmed!</h3>
+            <p>Your ticket has been booked successfully</p>
+          </div>
+          <button class="mclose" onclick="closeTicket()">✕</button>
+        </div>
+        <div class="modal-body" id="ticketBody" style="padding: 20px"></div>
+        <div class="modal-foot">
+          <button class="mf-back" onclick="closeTicket()">Close</button>
+          <button
+            class="mf-next"
+            onclick="dlPDF()"
+            style="background: var(--navy)"
+          >
+            📄 Download PDF Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     PNR CHECK MODAL
+════════════════════════════════════════ -->
+    <div class="overlay" id="pnrOverlay">
+      <div class="modal" style="max-width: 480px">
+        <div class="modal-head">
+          <div>
+            <h3>🔍 PNR Status Check</h3>
+            <p>Enter your PNR to check status</p>
+          </div>
+          <button class="mclose" onclick="closePNR()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="fg" style="margin-bottom: 16px">
+            <label>PNR Number</label>
+            <input
+              type="text"
+              id="pnrInput"
+              placeholder="e.g. PNR1708444123456"
+              style="text-transform: uppercase; font-size: 1rem; padding: 13px"
+            />
+          </div>
+          <button
+            class="btn btn-orange"
+            style="width: 100%; padding: 13px"
+            onclick="checkPNR()"
+          >
+            Check Status
+          </button>
+          <div id="pnrResult" class="pnr-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+    <script>
+      /* ── CONFIG ── */
+      const API = "http://localhost:8081/api";
+
+      /* ── STATE ── */
+      let state = {
+        fromCity: "Delhi",
+        toCity: "Patna",
+        date: "",
+        buses: [],
+        selectedBus: null,
+        seatType: null,
+        seatData: [],
+        pax: 1,
+        step: 1,
+        currentPNR: null,
+      };
+
+      /* ── INIT ── */
+      document.getElementById("fromCity").value = state.fromCity;
+      document.getElementById("toCity").value = state.toCity;
+
+      // Fix: always compute fresh today date and set it
+      function getTodayStr() {
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+      const today = getTodayStr();
+      document.getElementById("travelDate").value = today;
+      state.date = today;
+
+      /* ════════════════════════════════════════
+   PAGE NAV
+════════════════════════════════════════ */
+      function goPage(id, btn) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById("pg-" + id).classList.add("active");
+        if (btn) btn.classList.add("active");
+        document.getElementById("resultsSection").classList.add("hidden");
+        window.scrollTo({ top: 0, behavior: "instant" });
+        if (id === "admin") loadAdmin();
+      }
+
+      /* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+      function toast(msg, type = "in", icon = "ℹ️") {
+        const el = document.createElement("div");
+        el.className = `toast ${type}`;
+        el.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+        document.getElementById("toast-area").appendChild(el);
+        setTimeout(() => el.remove(), 3800);
+      }
+
+      /* ════════════════════════════════════════
+   UTILS
+════════════════════════════════════════ */
+      function rupee(n) {
+        return (
+          "₹" +
+          parseFloat(n).toLocaleString("en-IN", { minimumFractionDigits: 2 })
+        );
+      }
+      function fmt(d) {
+        return new Date(d).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      function swapCities() {
+        const a = document.getElementById("fromCity").value;
+        const b = document.getElementById("toCity").value;
+        document.getElementById("fromCity").value = b;
+        document.getElementById("toCity").value = a;
+      }
+
+      function fillRoute(from, to) {
+        document.getElementById("fromCity").value = from;
+        document.getElementById("toCity").value = to;
+        document.getElementById("travelDate").value = getTodayStr();
+        doSearch();
+      }
+      /* ════════════════════════════════════════
+   SEARCH
+════════════════════════════════════════ */
+      async function doSearch() {
+        const from = document.getElementById("fromCity").value.trim();
+        const to = document.getElementById("toCity").value.trim();
+        const date = document.getElementById("travelDate").value;
+
+        if (!from || !to) {
+          toast("Please enter From and To city", "er", "❌");
+          return;
+        }
+        if (from.toLowerCase() === to.toLowerCase()) {
+          toast("From and To city cannot be same", "er", "❌");
+          return;
+        }
+        if (!date) {
+          toast("Please select a travel date", "er", "❌");
+          return;
+        }
+        if (date < today) {
+          toast("Travel date cannot be in the past", "er", "❌");
+          return;
+        }
+
+        state.fromCity = from;
+        state.toCity = to;
+        state.date = date;
+
+        const btn = document.getElementById("searchBtn");
+        document.getElementById("searchBtnTxt").innerHTML =
+          '<span class="spin"></span> Searching...';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(
+            `${API}/buses/search?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
+          );
+          const data = await res.json();
+          state.buses = Array.isArray(data) ? data : [];
+        } catch (e) {
+          state.buses = demoBuses();
+          toast("Demo mode — connect Spring Boot to get real data", "in", "ℹ️");
+        } finally {
+          document.getElementById("searchBtnTxt").textContent =
+            "🔍 Search Buses";
+          btn.disabled = false;
+        }
+
+        renderResults();
+      }
+
+      function demoBuses() {
+        return [
+          {
+            bus_id: 1,
+            bus_name: "Punjab Express",
+            source: "Ludhiana",
+            destination: "Darbhanga",
+            available_seats: 28,
+            duration: "18h 30m",
+          },
+          {
+            bus_id: 2,
+            bus_name: "Delhi Patna Superfast",
+            source: "Delhi",
+            destination: "Patna",
+            available_seats: 8,
+            duration: "12h 45m",
+          },
+          {
+            bus_id: 3,
+            bus_name: "Lucknow Darbhanga Express",
+            source: "Lucknow",
+            destination: "Darbhanga",
+            available_seats: 35,
+            duration: "9h 20m",
+          },
+        ];
+      }
+
+      function renderResults() {
+        const sec = document.getElementById("resultsSection");
+        sec.classList.remove("hidden");
+        sec.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        document.getElementById("resultsTitle").textContent = state.buses.length
+          ? `${state.buses.length} Bus${state.buses.length > 1 ? "es" : ""} Found`
+          : "No Buses Found";
+        document.getElementById("resultsSubtitle").textContent =
+          `${state.fromCity} → ${state.toCity}  |  ${fmt(state.date)}`;
+
+        if (!state.buses.length) {
+          document.getElementById("busList").innerHTML = `
+      <div class="empty" style="background:#fff;border-radius:16px;box-shadow:var(--sh)">
+        <div class="empty-icon">😔</div>
+        <h3>No buses available</h3>
+        <p>No buses found from ${state.fromCity} to ${state.toCity}. Please try a different date or route.</p>
+      </div>`;
+          return;
+        }
+
+        renderBusList(state.buses);
+      }
+
+      function renderBusList(buses) {
+        document.getElementById("busList").innerHTML = buses
+          .map((b) => {
+            const low = b.available_seats < 10;
+            const seatsColor = low ? 'style="color:var(--red)"' : "";
+            return `
+    <div class="bus-card">
+      <div class="bus-card-main">
+        <div>
+          <div class="bc-name">🚌 ${b.bus_name}</div>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:3px">${b.source} ↔ ${b.destination}</div>
+          <div class="bc-type-badges">
+            <span class="bc-badge ac">AC</span>
+            <span class="bc-badge sleeper">Sleeper Available</span>
+            <span class="bc-badge live">Live Tracking</span>
+          </div>
+        </div>
+        <div>
+          <div class="route-vis">
+            <div class="rv-city">
+              <div class="city">${state.fromCity}</div>
+              <div class="lbl">Departure</div>
+            </div>
+            <div class="rv-line">
+              <div class="rv-dot-line"></div>
+              <div class="rv-dur">${b.duration || "~12h"}</div>
+            </div>
+            <div class="rv-city">
+              <div class="city">${state.toCity}</div>
+              <div class="lbl">Arrival</div>
+            </div>
+          </div>
+        </div>
+        <div class="seats-col">
+          <div class="seats-num ${low ? "seats-low" : ""}" ${seatsColor}>${b.available_seats}</div>
+          <div class="seats-lbl">Seats Left</div>
+          ${low ? '<div style="font-size:.68rem;color:var(--red);font-weight:700;margin-top:3px">Hurry!</div>' : ""}
+        </div>
+        <div class="fare-col">
+          <div class="fare-from">Starting from</div>
+          <div class="fare-price">₹700+</div>
+          <div class="fare-sub">Per person</div>
+          <button class="book-btn" onclick="openBooking(${b.bus_id},'${b.bus_name.replace(/'/g, "\\'")}')">
+            Book Now →
+          </button>
+        </div>
+      </div>
+      <div class="bus-card-footer">
+        <span class="bcf-item">🛏️ <strong>SLEEPER AC</strong></span>
+        <span class="bcf-item">💺 <strong>CHAIR AC</strong></span>
+        <span class="bcf-item">🧳 Free Luggage: <strong>30kg</strong></span>
+        <span class="bcf-item">🍱 Meals: <strong>Available</strong></span>
+        <span class="bcf-item">🔌 Charging: <strong>Available</strong></span>
+      </div>
+    </div>`;
+          })
+          .join("");
+      }
+
+      function sortBuses(by) {
+        let sorted = [...state.buses];
+        if (by === "seats")
+          sorted.sort((a, b) => b.available_seats - a.available_seats);
+        renderBusList(sorted);
+      }
+
+      function backToHome() {
+        document.getElementById("resultsSection").classList.add("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      /* ════════════════════════════════════════
+   BOOKING MODAL — 3 STEPS
+════════════════════════════════════════ */
+      async function openBooking(busId, busName) {
+        state.selectedBus = { bus_id: busId, bus_name: busName };
+        state.step = 1;
+        state.seatType = null;
+        state.pax = 1;
+        document.getElementById("paxNum").textContent = "1";
+
+        // Journey strip
+        document.getElementById("journeyStrip").innerHTML = `
+    <div class="js-city"><div class="jsc">${state.fromCity}</div><div class="jsl">FROM</div></div>
+    <div class="js-arrow">→</div>
+    <div class="js-city"><div class="jsc">${state.toCity}</div><div class="jsl">TO</div></div>
+    <div class="js-meta"><strong>${busName}</strong>${fmt(state.date)}</div>`;
+
+        // Load seat types
+        try {
+          const r = await fetch(`${API}/buses/${busId}/seats`);
+          state.seatData = await r.json();
+        } catch {
+          state.seatData = [
+            { seat_type: "SLEEPER_AC", available_seats: 20, base_fare: 2000 },
+            { seat_type: "CHAIR_AC", available_seats: 25, base_fare: 1400 },
+          ];
+        }
+
+        renderSeatCards();
+        setStep(1);
+        document.getElementById("bookingOverlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function renderSeatCards() {
+        document.getElementById("seatCards").innerHTML = state.seatData
+          .map(
+            (s) => `
+    <div class="seat-card" id="sc-${s.seat_type}" onclick="pickSeat('${s.seat_type}')">
+      <div class="sc-icon">${s.seat_type === "SLEEPER_AC" ? "🛏️" : "💺"}</div>
+      <div class="sc-name">${s.seat_type.replace("_", " ")}</div>
+      <div class="sc-fare">${rupee(s.base_fare)} base fare</div>
+      <div class="sc-avail">${s.available_seats} seats available</div>
+      <div class="sc-features">
+        <span class="sc-feat">AC</span>
+        ${s.seat_type === "SLEEPER_AC" ? '<span class="sc-feat">Blanket</span><span class="sc-feat">Pillow</span>' : '<span class="sc-feat">Recliner</span>'}
+        <span class="sc-feat">Charging Point</span>
+      </div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      function pickSeat(type) {
+        state.seatType = type;
+        document
+          .querySelectorAll(".seat-card")
+          .forEach((c) => c.classList.remove("sel"));
+        document.getElementById("sc-" + type)?.classList.add("sel");
+      }
+
+      function changePax(d) {
+        const max =
+          state.seatData.find((s) => s.seat_type === state.seatType)
+            ?.available_seats || 10;
+        state.pax = Math.max(1, Math.min(max, state.pax + d));
+        document.getElementById("paxNum").textContent = state.pax;
+      }
+
+      function setStep(n) {
+        state.step = n;
+        ["step1", "step2", "step3"].forEach((id, i) => {
+          document.getElementById(id).style.display =
+            i + 1 === n ? "block" : "none";
+        });
+        // Step circles
+        for (let i = 1; i <= 3; i++) {
+          const sc = document.getElementById("sc" + i);
+          sc.className =
+            "step-circle" + (i < n ? " done" : i === n ? " active" : "");
+          if (i < n) sc.textContent = "✓";
+          else sc.textContent = i;
+        }
+        for (let i = 1; i <= 2; i++) {
+          document.getElementById("sl" + i).className =
+            "step-line" + (i < n ? " done" : "");
+        }
+        // Buttons
+        document.getElementById("mBackBtn").style.display =
+          n > 1 ? "block" : "none";
+        const nxt = document.getElementById("mNextBtn");
+        if (n === 1) {
+          nxt.textContent = "Next: Passenger Details →";
+        } else if (n === 2) {
+          nxt.textContent = "Review Booking →";
+        } else {
+          nxt.textContent = "✅ Confirm & Book Ticket";
+        }
+        document.getElementById("mHeadSub").textContent = `Step ${n} of 3`;
+        document.getElementById("mHeadTitle").textContent = [
+          "Choose Seat Type",
+          "Passenger Details",
+          "Review & Confirm",
+        ][n - 1];
+      }
+
+      function stepBack() {
+        if (state.step > 1) setStep(state.step - 1);
+      }
+
+      function stepNext() {
+        if (state.step === 1) {
+          if (!state.seatType) {
+            toast("Please select a seat type", "er", "❌");
+            return;
+          }
+          setStep(2);
+        } else if (state.step === 2) {
+          if (!validatePassenger()) return;
+          buildReview();
+          setStep(3);
+        } else {
+          confirmBooking();
+        }
+      }
+
+      function validatePassenger() {
+        let ok = true;
+        const name = document.getElementById("pName").value.trim();
+        const mob = document.getElementById("pMobile").value.trim();
+        document.getElementById("pNameErr").textContent = "";
+        document.getElementById("pMobileErr").textContent = "";
+        document.getElementById("paxErr").textContent = "";
+        if (!name || name.length < 2) {
+          document.getElementById("pNameErr").textContent =
+            "Please enter full name (min 2 chars)";
+          document.getElementById("pName").classList.add("err");
+          ok = false;
+        } else document.getElementById("pName").classList.remove("err");
+        if (!mob || mob.length !== 10 || !/^\d{10}$/.test(mob)) {
+          document.getElementById("pMobileErr").textContent =
+            "Enter valid 10-digit mobile number";
+          document.getElementById("pMobile").classList.add("err");
+          ok = false;
+        } else document.getElementById("pMobile").classList.remove("err");
+        return ok;
+      }
+
+      function buildReview() {
+        const seat = state.seatData.find((s) => s.seat_type === state.seatType);
+        const totalFare = (seat.base_fare / 15) * 8 * state.pax; // estimated
+        document.getElementById("reviewGrid").innerHTML = `
+    <div class="rg-item"><div class="rgl">Passenger</div><div class="rgv">${document.getElementById("pName").value}</div></div>
+    <div class="rg-item"><div class="rgl">Mobile</div><div class="rgv">${document.getElementById("pMobile").value}</div></div>
+    <div class="rg-item"><div class="rgl">From</div><div class="rgv">${state.fromCity}</div></div>
+    <div class="rg-item"><div class="rgl">To</div><div class="rgv">${state.toCity}</div></div>
+    <div class="rg-item"><div class="rgl">Date</div><div class="rgv">${fmt(state.date)}</div></div>
+    <div class="rg-item"><div class="rgl">Bus</div><div class="rgv">${state.selectedBus.bus_name}</div></div>
+    <div class="rg-item"><div class="rgl">Seat Type</div><div class="rgv">${state.seatType.replace("_", " ")}</div></div>
+    <div class="rg-item"><div class="rgl">Passengers</div><div class="rgv">${state.pax}</div></div>`;
+
+        const base = (seat.base_fare / 15) * 8 * state.pax;
+        const tax = base * 0.05;
+        document.getElementById("fareBreakdown").innerHTML = `
+    <div class="fb-row"><span>Base Fare (${state.pax} pax)</span><span>${rupee(base.toFixed(2))}</span></div>
+    <div class="fb-row"><span>GST (5%)</span><span>${rupee(tax.toFixed(2))}</span></div>
+    <div class="fb-row"><span>Convenience Fee</span><span>₹0.00</span></div>
+    <div class="fb-row"><span>Total Amount</span><span>${rupee((base + tax).toFixed(2))}</span></div>`;
+      }
+
+      async function confirmBooking() {
+        const nxt = document.getElementById("mNextBtn");
+        nxt.innerHTML = '<span class="spin"></span> Booking...';
+        nxt.disabled = true;
+
+        const payload = {
+          busId: state.selectedBus.bus_id,
+          seatType: state.seatType,
+          passengerName: document.getElementById("pName").value.trim(),
+          seats: state.pax,
+          mobile: document.getElementById("pMobile").value.trim(),
+          email: document.getElementById("pEmail").value.trim(),
+          fromCity: state.fromCity,
+          toCity: state.toCity,
+          travelDate: state.date,
+        };
+
+        let result;
+        try {
+          const r = await fetch(`${API}/bookings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!r.ok) throw new Error("Server error: " + r.status);
+          result = await r.json();
+        } catch (err) {
+          // Demo mode — works without backend, stores locally
+          const pnr = "PNR" + Date.now();
+          const seat = state.seatData.find(
+            (s) => s.seat_type === state.seatType,
+          );
+          const base = ((seat?.base_fare || 2000) / 15) * 8 * payload.seats;
+          const fare = parseFloat((base * 1.05).toFixed(2));
+          result = {
+            success: true,
+            pnr,
+            fare,
+            message: "Booking confirmed (Demo mode)",
+          };
+          // Save to localStorage for My Bookings to work offline
+          try {
+            const existing = JSON.parse(
+              localStorage.getItem("busgo_bookings") || "[]",
+            );
+            existing.unshift({
+              bookingId: Date.now(),
+              pnr,
+              busName: state.selectedBus?.bus_name || "BusGo Express",
+              passengerName: payload.passengerName,
+              contactNumber: payload.mobile,
+              email: payload.email,
+              fromCity: state.fromCity,
+              toCity: state.toCity,
+              travelDate: state.date,
+              seatType: state.seatType,
+              seatsBooked: payload.seats,
+              fare,
+            });
+            localStorage.setItem("busgo_bookings", JSON.stringify(existing));
+          } catch (e) {}
+          toast(
+            "Booking confirmed! (Demo mode — connect backend for real data)",
+            "in",
+            "ℹ️",
+          );
+        }
+
+        nxt.innerHTML = "✅ Confirm & Book Ticket";
+        nxt.disabled = false;
+
+        if (result.success) {
+          state.currentPNR = result.pnr;
+          closeBookingModal();
+          showTicket(result, payload);
+          toast("Booking confirmed! 🎉", "ok", "✅");
+        } else {
+          toast(result.message || "Booking failed", "er", "❌");
+        }
+      }
+
+      function closeBookingModal() {
+        document.getElementById("bookingOverlay").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      /* ════════════════════════════════════════
+   TICKET
+════════════════════════════════════════ */
+      function showTicket(result, payload) {
+        const seat = state.seatData.find((s) => s.seat_type === state.seatType);
+        const base = ((seat?.base_fare || 2000) / 15) * 8 * payload.seats;
+        const total = base * 1.05;
+
+        document.getElementById("ticketBody").innerHTML = `
+    <div class="ticket-wrap">
+      <div class="tk-head">
+        <div class="tk-bus-icon">🚌</div>
+        <div class="tk-busname">${state.selectedBus?.bus_name || "BusGo Express"}</div>
+        <div class="tk-pnr-box">
+          <div class="tk-pnr-label">PNR Number</div>
+          <div class="tk-pnr">${result.pnr}</div>
+        </div>
+      </div>
+      <div class="tk-body">
+        <div class="tk-status">
+          <div class="tk-status-dot"></div>
+          <div class="tk-status-text">✅ Booking Confirmed — Seat Reserved</div>
+        </div>
+        <div class="tk-route">
+          <div class="ticket-city"><div class="tkc-city">${state.fromCity}</div><div class="tkc-lbl">FROM</div></div>
+          <div class="tk-arr">→</div>
+          <div class="ticket-city"><div class="tkc-city">${state.toCity}</div><div class="tkc-lbl">TO</div></div>
+        </div>
+        <div class="tk-details">
+          <div class="tkd-item"><div class="tkdl">Passenger</div><div class="tkdv">${payload.passengerName}</div></div>
+          <div class="tkd-item"><div class="tkdl">Mobile</div><div class="tkdv">${payload.mobile}</div></div>
+          <div class="tkd-item"><div class="tkdl">Travel Date</div><div class="tkdv">${fmt(state.date)}</div></div>
+          <div class="tkd-item"><div class="tkdl">Seat Type</div><div class="tkdv">${state.seatType?.replace("_", " ")}</div></div>
+          <div class="tkd-item"><div class="tkdl">Passengers</div><div class="tkdv">${payload.seats}</div></div>
+          <div class="tkd-item"><div class="tkdl">Class</div><div class="tkdv">AC Bus</div></div>
+        </div>
+        <div class="tk-fare-box">
+          <div class="tkf-label">Total Amount Paid</div>
+          <div class="tkf-amount">${rupee(result.fare || total.toFixed(2))}</div>
+        </div>
+        <div class="tk-note">Save your PNR: <strong>${result.pnr}</strong> — You can check status anytime using PNR Check</div>
+      </div>
+    </div>`;
+        document.getElementById("ticketOverlay").classList.add("open");
+      }
+
+      function closeTicket() {
+        document.getElementById("ticketOverlay").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      function dlPDF() {
+        if (!state.currentPNR) {
+          toast("No PNR found", "er", "❌");
+          return;
+        }
+        // Try backend PDF first, fallback to browser print
+        const url = `${API}/bookings/pdf/${state.currentPNR}`;
+        fetch(url, { method: "HEAD" })
+          .then((r) => {
+            if (r.ok) {
+              window.open(url, "_blank");
+            } else {
+              printTicket();
+            }
+          })
+          .catch(() => {
+            printTicket();
+          });
+      }
+
+      function printTicket() {
+        const content = document.getElementById("ticketBody").innerHTML;
+        const win = window.open("", "_blank", "width=700,height=900");
+        win.document.write(`<!DOCTYPE html><html><head>
+    <title>BusGo Ticket — ${state.currentPNR}</title>
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{font-family:'Segoe UI',sans-serif;padding:30px;background:#fff}
+      .ticket-wrap{max-width:600px;margin:0 auto;border:2px solid #1E3A5F;border-radius:16px;overflow:hidden}
+      .tk-head{background:linear-gradient(135deg,#0f2035,#1E3A5F);color:#fff;padding:28px;text-align:center}
+      .tk-bus-icon{font-size:2.5rem}
+      .tk-busname{font-size:.95rem;opacity:.8;margin:6px 0}
+      .tk-pnr-box{background:rgba(255,255,255,.15);border:1.5px dashed rgba(255,255,255,.4);padding:10px 20px;border-radius:10px;display:inline-block;margin-top:8px}
+      .tk-pnr-label{font-size:.62rem;opacity:.7;letter-spacing:1px;text-transform:uppercase}
+      .tk-pnr{font-size:1.15rem;font-weight:800;letter-spacing:2px}
+      .tk-body{padding:22px}
+      .tk-status{display:flex;align-items:center;gap:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:11px 14px;margin-bottom:16px}
+      .tk-status-text{font-size:.85rem;font-weight:700;color:#16a34a}
+      .tk-route{display:flex;align-items:center;justify-content:space-between;background:#f1f5f9;border-radius:12px;padding:16px 20px;margin-bottom:18px}
+      .tkc-city{font-size:1.2rem;font-weight:800;color:#1E3A5F}
+      .tkc-lbl{font-size:.65rem;color:#64748b;margin-top:3px}
+      .tk-arr{font-size:1.6rem;color:#FF6B35}
+      .tk-details{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px}
+      .tkdl{font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.4px}
+      .tkdv{font-size:.88rem;font-weight:600;margin-top:2px}
+      .tk-fare-box{background:linear-gradient(135deg,#FF6B35,#ff9a5c);border-radius:12px;padding:16px;text-align:center;color:#fff;margin-bottom:16px}
+      .tkf-label{font-size:.78rem;opacity:.9}
+      .tkf-amount{font-size:1.8rem;font-weight:800}
+      .tk-note{font-size:.72rem;color:#64748b;text-align:center;padding-top:10px;border-top:1px dashed #e2e8f0}
+      .print-btn{display:block;width:100%;margin-top:20px;padding:12px;background:#FF6B35;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+      @media print{.print-btn{display:none}}
+    </style>
+  </head><body>${content}
+    <button class="print-btn" onclick="window.print()">🖨️ Print Ticket</button>
+  </body></html>`);
+        win.document.close();
+      }
+
+      /* ════════════════════════════════════════
+   PNR CHECK
+════════════════════════════════════════ */
+      function openPNRCheck() {
+        document.getElementById("pnrOverlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+        document.getElementById("pnrResult").classList.remove("show");
+        document.getElementById("pnrInput").value = "";
+      }
+      function closePNR() {
+        document.getElementById("pnrOverlay").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      async function checkPNR() {
+        const pnr = document
+          .getElementById("pnrInput")
+          .value.trim()
+          .toUpperCase();
+        if (!pnr) {
+          toast("Enter PNR number", "er", "❌");
+          return;
+        }
+        const el = document.getElementById("pnrResult");
+        el.innerHTML =
+          '<div class="spin dark" style="width:22px;height:22px;margin:0 auto"></div>';
+        el.classList.add("show");
+        try {
+          const r = await fetch(`${API}/bookings/pnr/${pnr}`);
+          if (!r.ok) throw new Error();
+          const b = await r.json();
+          el.innerHTML = `
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;font-size:.85rem">
+        <div style="font-weight:700;color:#16a34a;margin-bottom:10px">✅ Booking Found</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><div style="font-size:.68rem;color:var(--muted)">PNR</div><div style="font-weight:700">${b.pnr}</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted)">Passenger</div><div style="font-weight:700">${b.passengerName}</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted)">Route</div><div style="font-weight:700">${b.fromCity} → ${b.toCity}</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted)">Date</div><div style="font-weight:700">${fmt(b.travelDate)}</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted)">Seat Type</div><div style="font-weight:700">${b.seatType?.replace("_", " ")}</div></div>
+          <div><div style="font-size:.68rem;color:var(--muted)">Fare</div><div style="font-weight:700;color:var(--orange)">${rupee(b.fare)}</div></div>
+        </div>
+      </div>`;
+        } catch {
+          el.innerHTML = `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;font-size:.85rem;color:var(--red)">❌ No booking found for PNR: ${pnr}</div>`;
+        }
+      }
+
+      /* ════════════════════════════════════════
+   MY BOOKINGS
+════════════════════════════════════════ */
+      function switchBkTab(type, btn) {
+        document
+          .querySelectorAll("#bkTabSwitch button")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("bk-mobile-form").style.display =
+          type === "mobile" ? "block" : "none";
+        document.getElementById("bk-pnr-form").style.display =
+          type === "pnr" ? "block" : "none";
+      }
+
+      async function loadMyBookings() {
+        const mob = document.getElementById("histMobile").value.trim();
+        if (!mob || mob.length !== 10) {
+          toast("Enter valid 10-digit mobile", "er", "❌");
+          return;
+        }
+        const el = document.getElementById("bookingsResult");
+        el.innerHTML =
+          '<div class="empty"><div class="spin dark" style="width:26px;height:26px"></div></div>';
+        try {
+          const r = await fetch(`${API}/bookings/history?mobile=${mob}`);
+          if (!r.ok) throw new Error();
+          const data = await r.json();
+          renderMyBookings(data, el);
+        } catch {
+          // Fallback: show localStorage bookings filtered by mobile
+          try {
+            const all = JSON.parse(
+              localStorage.getItem("busgo_bookings") || "[]",
+            );
+            const filtered = all.filter((b) => b.contactNumber === mob);
+            if (filtered.length > 0) {
+              renderMyBookings(filtered, el);
+              toast("Showing locally saved bookings (Demo mode)", "in", "ℹ️");
+            } else {
+              el.innerHTML = `<div class="empty">
+          <div class="empty-icon">⚠️</div>
+          <h3>Backend not connected</h3>
+          <p>No bookings found for this mobile. Start your Spring Boot server for real data.</p>
+          <div style="margin-top:16px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:14px;font-size:.82rem;text-align:left;color:#92400e">
+            <strong>To start backend:</strong><br>
+            1. Open VS Code terminal<br>
+            2. cd BusBookingApp<br>
+            3. mvn spring-boot:run<br>
+            4. Wait for "Started BusBookingApplication"<br>
+            5. Then search and book
+          </div>
+        </div>`;
+            }
+          } catch (e) {
+            el.innerHTML =
+              '<div class="empty"><div class="empty-icon">⚠️</div><h3>Backend not connected</h3></div>';
+          }
+        }
+      }
+
+      async function loadByPNR() {
+        const pnr = document
+          .getElementById("histPNR")
+          .value.trim()
+          .toUpperCase();
+        if (!pnr) {
+          toast("Enter PNR number", "er", "❌");
+          return;
+        }
+        const el = document.getElementById("bookingsResult");
+        el.innerHTML =
+          '<div class="empty"><div class="spin dark" style="width:26px;height:26px"></div></div>';
+        try {
+          const r = await fetch(`${API}/bookings/pnr/${pnr}`);
+          if (!r.ok) throw new Error();
+          renderMyBookings([await r.json()], el);
+        } catch {
+          el.innerHTML =
+            '<div class="empty"><div class="empty-icon">🔍</div><h3>No booking found</h3><p>Check your PNR number and try again</p></div>';
+        }
+      }
+
+      function renderMyBookings(list, el) {
+        if (!list || !list.length) {
+          el.innerHTML =
+            '<div class="empty" style="background:#fff;border-radius:14px;box-shadow:var(--sh)"><div class="empty-icon">📭</div><h3>No bookings found</h3><p>You have no bookings with this number</p></div>';
+          return;
+        }
+        el.innerHTML = list
+          .map(
+            (b) => `
+    <div class="bk-card">
+      <div class="bk-card-top">
+        <div>
+          <div class="bk-pnr">PNR<strong>${b.pnr}</strong></div>
+        </div>
+        <div>
+          <div class="bk-route">
+            ${b.fromCity} <span class="bk-arrow">→</span> ${b.toCity}
+          </div>
+          <div class="bk-meta">🚌 ${b.busName || "Bus"} &nbsp;|&nbsp; 📅 ${fmt(b.travelDate)} &nbsp;|&nbsp; 👤 ${b.passengerName} &nbsp;|&nbsp; ${b.seatType?.replace("_", " ")} × ${b.seatsBooked}</div>
+        </div>
+        <div class="bk-actions">
+          <div class="bk-fare">${rupee(b.fare)}</div>
+          <button class="btn btn-sm btn-navy" onclick="window.open('${API}/bookings/pdf/${b.pnr}','_blank')">📄 PDF</button>
+        </div>
+      </div>
+      <div class="bk-card-footer">
+        <span class="bcf-item">Mobile: <strong>${b.contactNumber}</strong></span>
+        <span class="bcf-item">Booking ID: <strong>#${b.bookingId}</strong></span>
+        <button class="btn btn-sm btn-red" onclick="cancelBooking(${b.bookingId},this)">❌ Cancel</button>
+      </div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      /* ════════════════════════════════════════
+   ADMIN
+════════════════════════════════════════ */
+      async function loadAdmin() {
+        document.getElementById("adminTableContent").innerHTML =
+          '<div class="empty"><div class="spin dark" style="width:26px;height:26px"></div></div>';
+        try {
+          const r = await fetch(`${API}/bookings/all`);
+          if (!r.ok) throw new Error();
+          const list = await r.json();
+          document.getElementById("adm-total").textContent = list.length;
+          document.getElementById("adm-rev").textContent = rupee(
+            list.reduce((s, b) => s + b.fare, 0),
+          );
+          document.getElementById("adm-pax").textContent = list.reduce(
+            (s, b) => s + b.seatsBooked,
+            0,
+          );
+          document.getElementById("adm-today").textContent = list.filter(
+            (b) => b.travelDate && b.travelDate.startsWith(today),
+          ).length;
+          renderAdminTable(list);
+        } catch {
+          // Fallback: show localStorage bookings
+          try {
+            const list = JSON.parse(
+              localStorage.getItem("busgo_bookings") || "[]",
+            );
+            if (list.length > 0) {
+              document.getElementById("adm-total").textContent = list.length;
+              document.getElementById("adm-rev").textContent = rupee(
+                list.reduce((s, b) => s + (b.fare || 0), 0),
+              );
+              document.getElementById("adm-pax").textContent = list.reduce(
+                (s, b) => s + (b.seatsBooked || 1),
+                0,
+              );
+              document.getElementById("adm-today").textContent = list.filter(
+                (b) => b.travelDate === today,
+              ).length;
+              renderAdminTable(list);
+              toast(
+                "Showing local bookings — connect backend for full data",
+                "in",
+                "ℹ️",
+              );
+            } else {
+              document.getElementById("adminTableContent").innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">🔌</div>
+          <h3>Backend Not Connected</h3>
+          <p style="margin-bottom:16px">No local bookings either. Start backend to see all data.</p>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:16px;font-size:.83rem;text-align:left;color:#92400e;max-width:400px;margin:0 auto">
+            <strong style="font-size:.9rem;display:block;margin-bottom:10px">📋 How to Start Backend:</strong>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="background:#fff;border-radius:8px;padding:8px 12px;font-family:monospace;font-size:.8rem;color:#1e293b;border:1px solid #fde68a">1. Open VS Code Terminal (Ctrl+\`)</div>
+              <div style="background:#fff;border-radius:8px;padding:8px 12px;font-family:monospace;font-size:.8rem;color:#1e293b;border:1px solid #fde68a">2. cd BusBookingApp</div>
+              <div style="background:#fff;border-radius:8px;padding:8px 12px;font-family:monospace;font-size:.8rem;color:#1e293b;border:1px solid #fde68a">3. mvn spring-boot:run</div>
+              <div style="background:#f0fdf4;border-radius:8px;padding:8px 12px;font-size:.78rem;color:#166534;border:1px solid #bbf7d0">✅ Wait for: "Started BusBookingApplication in X seconds"</div>
+              <div style="background:#fff;border-radius:8px;padding:8px 12px;font-size:.78rem;color:#1e293b;border:1px solid #e2e8f0">4. Make sure MySQL is running with bus_booking DB</div>
+            </div>
+            <button onclick="loadAdmin()" style="margin-top:14px;width:100%;padding:10px;background:#FF6B35;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.85rem">🔄 Try Again</button>
+          </div>
+        </div>`;
+            }
+          } catch (e) {
+            document.getElementById("adminTableContent").innerHTML =
+              '<div class="empty"><div class="empty-icon">⚠️</div><h3>Error loading data</h3></div>';
+          }
+        }
+      }
+
+      function renderAdminTable(list) {
+        if (!list.length) {
+          document.getElementById("adminTableContent").innerHTML =
+            '<div class="empty"><div class="empty-icon">📭</div><h3>No bookings yet</h3></div>';
+          return;
+        }
+        document.getElementById("adminTableContent").innerHTML = `
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th>#ID</th><th>PNR</th><th>Passenger</th><th>Bus</th>
+        <th>Route</th><th>Date</th><th>Seat</th><th>Pax</th><th>Fare</th><th>Actions</th>
+      </tr></thead>
+      <tbody>${list
+        .map(
+          (b) => `<tr>
+        <td>#${b.bookingId}</td>
+        <td><strong>${b.pnr}</strong></td>
+        <td>${b.passengerName}<br><small style="color:var(--muted)">${b.contactNumber}</small></td>
+        <td>${b.busName || "—"}</td>
+        <td>${b.fromCity} → ${b.toCity}</td>
+        <td>${fmt(b.travelDate)}</td>
+        <td><span class="badge ${b.seatType === "SLEEPER_AC" ? "badge-sl" : "badge-ac"}">${b.seatType?.replace("_", " ")}</span></td>
+        <td>${b.seatsBooked}</td>
+        <td><strong style="color:var(--orange)">${rupee(b.fare)}</strong></td>
+        <td>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-sm btn-navy" onclick="window.open('${API}/bookings/pdf/${b.pnr}','_blank')">PDF</button>
+            <button class="btn btn-sm btn-red" onclick="cancelBooking(${b.bookingId},this)">Cancel</button>
+          </div>
+        </td>
+      </tr>`,
+        )
+        .join("")}
+      </tbody>
+    </table></div>`;
+      }
+
+      /* ════════════════════════════════════════
+   CANCEL
+════════════════════════════════════════ */
+      async function cancelBooking(id, btn) {
+        if (
+          !confirm(
+            "Are you sure you want to cancel this booking? This action cannot be undone.",
+          )
+        )
+          return;
+        const orig = btn.textContent;
+        btn.textContent = "...";
+        btn.disabled = true;
+        try {
+          const r = await fetch(`${API}/bookings/${id}`, { method: "DELETE" });
+          const d = await r.json();
+          if (d.success) {
+            toast("Booking cancelled successfully", "ok", "✅");
+            loadAdmin();
+          } else toast(d.message, "er", "❌");
+        } catch {
+          toast("Error cancelling booking", "er", "❌");
+        } finally {
+          btn.textContent = orig;
+          btn.disabled = false;
+        }
+      }
+    </script>
+  </body>
+</html>

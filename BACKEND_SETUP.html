@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BusGo — Backend Setup Guide</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 30px;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.8rem;
+        color: #ff6b35;
+        margin-bottom: 6px;
+      }
+      .sub {
+        color: #64748b;
+        margin-bottom: 30px;
+        font-size: 0.9rem;
+      }
+      .card {
+        background: #1e293b;
+        border-radius: 14px;
+        padding: 24px;
+        margin-bottom: 20px;
+        border: 1px solid #334155;
+      }
+      .card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .step {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 14px;
+        align-items: flex-start;
+      }
+      .step-num {
+        background: #ff6b35;
+        color: #fff;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 800;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .step-content {
+        flex: 1;
+      }
+      .step-title {
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 4px;
+        font-size: 0.92rem;
+      }
+      .step-desc {
+        color: #94a3b8;
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+      code {
+        background: #0f172a;
+        color: #22d3ee;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-family: "Courier New", monospace;
+        font-size: 0.82rem;
+        border: 1px solid #334155;
+        display: inline-block;
+        margin: 2px 0;
+      }
+      .code-block {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 14px;
+        font-family: "Courier New", monospace;
+        font-size: 0.8rem;
+        color: #22d3ee;
+        margin-top: 8px;
+        line-height: 2;
+      }
+      .success {
+        background: #052e16;
+        border: 1px solid #16a34a;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: #4ade80;
+        font-size: 0.82rem;
+        margin-top: 8px;
+      }
+      .error {
+        background: #450a0a;
+        border: 1px solid #dc2626;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: #fca5a5;
+        font-size: 0.82rem;
+        margin-top: 8px;
+      }
+      .warn {
+        background: #422006;
+        border: 1px solid #d97706;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: #fcd34d;
+        font-size: 0.82rem;
+        margin-top: 8px;
+      }
+      .file-box {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 8px;
+        font-size: 0.8rem;
+        color: #94a3b8;
+      }
+      .file-box strong {
+        color: #e2e8f0;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        vertical-align: middle;
+        margin-left: 6px;
+      }
+      .badge-new {
+        background: #1d4ed8;
+        color: #fff;
+      }
+      .badge-fix {
+        background: #16a34a;
+        color: #fff;
+      }
+      .divider {
+        border: none;
+        border-top: 1px solid #334155;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚌 BusGo — Backend Setup Guide</h1>
+      <div class="sub">
+        Follow these steps to connect your Spring Boot backend with MySQL
+      </div>
+
+      <!-- Step 1: Files to copy -->
+      <div class="card">
+        <div class="card-title">
+          📁 Step 1 — Copy These New Files
+          <span class="badge badge-new">NEW</span>
+        </div>
+
+        <div class="step">
+          <div class="step-num">A</div>
+          <div class="step-content">
+            <div class="step-title">
+              Copy <code>index_PRODUCTION.html</code>
+            </div>
+            <div class="step-desc">
+              Rename it to <code>index.html</code> and put it in:<br />
+              <code>BusBookingApp/src/main/resources/static/index.html</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">B</div>
+          <div class="step-content">
+            <div class="step-title">
+              Copy <code>WebConfig.java</code>
+              <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="step-desc">
+              Put it in:<br />
+              <code
+                >BusBookingApp/src/main/java/com/busbooking/WebConfig.java</code
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">C</div>
+          <div class="step-content">
+            <div class="step-title">
+              Replace <code>application.properties</code>
+              <span class="badge badge-fix">FIX</span>
+            </div>
+            <div class="step-desc">
+              Replace existing file at:<br />
+              <code
+                >BusBookingApp/src/main/resources/application.properties</code
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: MySQL -->
+      <div class="card">
+        <div class="card-title">🗄️ Step 2 — Setup MySQL Database</div>
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Open MySQL Workbench or terminal</div>
+            <div class="step-desc">
+              Make sure MySQL service is running on your computer
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Run the database setup SQL</div>
+            <div class="code-block">
+              mysql -u root -p<br />
+              &gt; source path/to/database_setup.sql
+            </div>
+            <div class="step-desc" style="margin-top: 8px">
+              Or open MySQL Workbench → File → Run SQL Script → select
+              <code>database_setup.sql</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">
+              Update your MySQL password in application.properties
+            </div>
+            <div class="code-block">
+              spring.datasource.password=<span style="color: #f87171"
+                >YOUR_MYSQL_PASSWORD</span
+              >
+            </div>
+            <div class="warn">
+              ⚠️ If your MySQL password is empty (no password set), use:<br /><code
+                >spring.datasource.password=</code
+              >
+              (leave blank)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Run -->
+      <div class="card">
+        <div class="card-title">▶️ Step 3 — Start the Server</div>
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Open VS Code terminal</div>
+            <div class="step-desc">
+              Press <code>Ctrl + `</code> (backtick) to open terminal
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Navigate to project folder</div>
+            <div class="code-block">cd BusBookingApp</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Run the server</div>
+            <div class="code-block">mvn spring-boot:run</div>
+            <div class="success">
+              ✅ Success message: <br />"Started BusBookingApplication in X.XXX
+              seconds"
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Open website</div>
+            <div class="step-desc">Open browser and go to:</div>
+            <div class="code-block">http://localhost:8081</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Common Errors -->
+      <div class="card">
+        <div class="card-title">🔧 Common Errors & Fixes</div>
+
+        <div style="margin-bottom: 14px">
+          <div class="step-title" style="color: #fca5a5; font-size: 0.88rem">
+            ❌ "Access denied for user root"
+          </div>
+          <div class="step-desc" style="margin-top: 4px">
+            Your MySQL password is wrong in application.properties. Change it to
+            your actual password.
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div style="margin-bottom: 14px">
+          <div class="step-title" style="color: #fca5a5; font-size: 0.88rem">
+            ❌ "Unknown database bus_booking"
+          </div>
+          <div class="step-desc" style="margin-top: 4px">
+            You haven't run database_setup.sql yet. Run it in MySQL first.
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div style="margin-bottom: 14px">
+          <div class="step-title" style="color: #fca5a5; font-size: 0.88rem">
+            ❌ "Port 8080 already in use"
+          </div>
+          <div class="step-desc" style="margin-top: 4px">
+            Another program is using port 8080. Either stop it, or change
+            server.port=8081 in application.properties (and update API url in
+            index.html too).
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div>
+          <div class="step-title" style="color: #fca5a5; font-size: 0.88rem">
+            ❌ "Backend not connected" in website
+          </div>
+          <div class="step-desc" style="margin-top: 4px">
+            Server is not running. Do Step 3 again. Check terminal for red error
+            messages.
+          </div>
+          <div class="success" style="margin-top: 8px">
+            ✅ Note: Even without backend, you can still search (demo), book
+            (demo), and print tickets using the browser!
+          </div>
+        </div>
+      </div>
+
+      <!-- Test -->
+      <div class="card">
+        <div class="card-title">✅ Step 4 — Test It's Working</div>
+        <div class="step-desc" style="margin-bottom: 12px">
+          Open these URLs in browser to test API directly:
+        </div>
+        <div class="code-block">
+          http://localhost:8081/api/buses<br />
+          http://localhost:8081/api/buses/search?from=Delhi&amp;to=Patna<br />
+          http://localhost:8081/api/bookings/all
+        </div>
+        <div class="success" style="margin-top: 10px">
+          ✅ If you see JSON data — backend is working perfectly!
+        </div>
+        <div class="error" style="margin-top: 8px">
+          ❌ If you see error — check Step 2 and Step 3 again
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
