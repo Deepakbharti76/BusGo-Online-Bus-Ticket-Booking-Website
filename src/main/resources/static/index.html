@@ -3134,7 +3134,7 @@
             toast("Booking cancelled successfully", "ok", "✅");
             loadAdmin();
           } else toast(d.message, "er", "❌");
-        } catch {
+        } catch (e) {
           toast("Error cancelling booking", "er", "❌");
         } finally {
           btn.textContent = orig;
